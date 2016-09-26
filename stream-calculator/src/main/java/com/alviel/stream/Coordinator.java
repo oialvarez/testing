@@ -27,6 +27,10 @@ public class Coordinator {
         incrementVertical = false;
     }
 
+    private boolean matrixSideIsOdd(int matrixSide) {
+        return (matrixSide % 2) == 1;
+    }
+
     public Integer getVerticalCoordinate() {
         return verticalCoordinate;
     }
@@ -35,37 +39,41 @@ public class Coordinator {
         return horizontalCoordinate;
     }
 
-    private boolean matrixSideIsOdd(int matrixSide) {
-        return (matrixSide % 2) == 1;
-    }
-
     public void coordinateNextCoordinates() {
         totalCount++;
-        Integer side = (int) Math.ceil(Math.sqrt(totalCount));
+        Integer actualElementsSideSize = (int) Math.ceil(Math.sqrt(totalCount));
         if (workingWithHorizontalCoordinate) {
-            if (incrementHorizontal) {
-                horizontalCoordinate++;
-            } else {
-                horizontalCoordinate--;
-            }
-            horizontalCounter++;
-            if ((horizontalCounter + 1) == side) {
-                workingWithHorizontalCoordinate = false;
-                incrementHorizontal = !incrementHorizontal;
-                horizontalCounter = 0;
-            }
+            workWithHorizontal(actualElementsSideSize);
         } else {
-            if (incrementVertical) {
-                verticalCoordinate++;
-            } else {
-                verticalCoordinate--;
-            }
-            verticalCounter++;
-            if ((verticalCounter + 1) == side) {
-                workingWithHorizontalCoordinate = true;
-                incrementVertical = !incrementVertical;
-                verticalCounter = 0;
-            }
+            workWithVertical(actualElementsSideSize);
+        }
+    }
+
+    private void workWithHorizontal(Integer actualElementsSideSize) {
+        if (incrementHorizontal) {
+            horizontalCoordinate++;
+        } else {
+            horizontalCoordinate--;
+        }
+        horizontalCounter++;
+        if ((horizontalCounter + 1) == actualElementsSideSize) {
+            workingWithHorizontalCoordinate = false;
+            incrementHorizontal = !incrementHorizontal;
+            horizontalCounter = 0;
+        }
+    }
+
+    private void workWithVertical(Integer actualElementsSideSize) {
+        if (incrementVertical) {
+            verticalCoordinate++;
+        } else {
+            verticalCoordinate--;
+        }
+        verticalCounter++;
+        if ((verticalCounter + 1) == actualElementsSideSize) {
+            workingWithHorizontalCoordinate = true;
+            incrementVertical = !incrementVertical;
+            verticalCounter = 0;
         }
     }
 
