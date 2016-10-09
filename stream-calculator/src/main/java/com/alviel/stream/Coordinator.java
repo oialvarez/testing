@@ -5,14 +5,14 @@ package com.alviel.stream;
  * @since 9/24/16
  */
 public class Coordinator {
+    private int totalElementsCounter;
+    private boolean workingWithHorizontalCoordinate;
     private boolean incrementVertical;
     private boolean incrementHorizontal;
-    private boolean workingWithHorizontalCoordinate;
     private int verticalCoordinate;
     private int horizontalCoordinate;
-    private int totalCount;
-    private int horizontalCounter;
     private int verticalCounter;
+    private int horizontalCounter;
 
     public Coordinator(int matrixSide) {
         Integer center = (int) Math.floor(matrixSide / 2.0);
@@ -21,27 +21,19 @@ public class Coordinator {
         if (matrixSideIsOdd(matrixSide)) {
             horizontalCoordinate = center;
         }
-        totalCount = 2;
+        totalElementsCounter = 1;
         workingWithHorizontalCoordinate = true;
-        incrementHorizontal = true;
         incrementVertical = false;
+        incrementHorizontal = true;
     }
 
     private boolean matrixSideIsOdd(int matrixSide) {
         return (matrixSide % 2) == 1;
     }
 
-    public Integer getVerticalCoordinate() {
-        return verticalCoordinate;
-    }
-
-    public Integer getHorizontalCoordinate() {
-        return horizontalCoordinate;
-    }
-
     public void coordinateNextCoordinates() {
-        totalCount++;
-        Integer actualElementsSideSize = (int) Math.ceil(Math.sqrt(totalCount));
+        totalElementsCounter++;
+        Integer actualElementsSideSize = (int) Math.floor(Math.sqrt(totalElementsCounter));
         if (workingWithHorizontalCoordinate) {
             workWithHorizontal(actualElementsSideSize);
         } else {
@@ -55,12 +47,15 @@ public class Coordinator {
         } else {
             horizontalCoordinate--;
         }
-        horizontalCounter++;
-        if ((horizontalCounter + 1) == actualElementsSideSize) {
+        if (checkStopCondition(++horizontalCounter, actualElementsSideSize)) {
             workingWithHorizontalCoordinate = false;
             incrementHorizontal = !incrementHorizontal;
             horizontalCounter = 0;
         }
+    }
+
+    private boolean checkStopCondition(int counter, Integer sideSize) {
+        return counter == sideSize;
     }
 
     private void workWithVertical(Integer actualElementsSideSize) {
@@ -69,12 +64,19 @@ public class Coordinator {
         } else {
             verticalCoordinate--;
         }
-        verticalCounter++;
-        if ((verticalCounter + 1) == actualElementsSideSize) {
+        if (checkStopCondition(++verticalCounter, actualElementsSideSize)) {
             workingWithHorizontalCoordinate = true;
             incrementVertical = !incrementVertical;
             verticalCounter = 0;
         }
+    }
+
+    public Integer getHorizontalCoordinate() {
+        return horizontalCoordinate;
+    }
+
+    public Integer getVerticalCoordinate() {
+        return verticalCoordinate;
     }
 
     @Override
@@ -82,7 +84,7 @@ public class Coordinator {
         final StringBuilder sb = new StringBuilder("Coordinator{");
         sb.append("verticalCoordinate=").append(verticalCoordinate);
         sb.append(", horizontalCoordinate=").append(horizontalCoordinate);
-        sb.append(", totalCount=").append(totalCount);
+        sb.append(", totalElementsCounter=").append(totalElementsCounter);
         sb.append(", horizontalCounter=").append(horizontalCounter);
         sb.append(", verticalCounter=").append(verticalCounter);
         sb.append(", workingWithHorizontalCoordinate=").append(workingWithHorizontalCoordinate);
