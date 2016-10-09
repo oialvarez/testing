@@ -79,16 +79,4 @@ public class Coordinator {
         return verticalCoordinate;
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Coordinator{");
-        sb.append("verticalCoordinate=").append(verticalCoordinate);
-        sb.append(", horizontalCoordinate=").append(horizontalCoordinate);
-        sb.append(", totalElementsCounter=").append(totalElementsCounter);
-        sb.append(", horizontalCounter=").append(horizontalCounter);
-        sb.append(", verticalCounter=").append(verticalCounter);
-        sb.append(", workingWithHorizontalCoordinate=").append(workingWithHorizontalCoordinate);
-        sb.append('}');
-        return sb.toString();
-    }
 }
