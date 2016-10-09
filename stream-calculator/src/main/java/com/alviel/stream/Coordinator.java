@@ -32,39 +32,39 @@ public class Coordinator {
     }
 
     public void coordinateNextCoordinates() {
-        totalElementsCounter++;
-        Integer actualElementsSideSize = (int) Math.floor(Math.sqrt(totalElementsCounter));
         if (workingWithHorizontalCoordinate) {
-            workWithHorizontal(actualElementsSideSize);
+            workWithHorizontal();
         } else {
-            workWithVertical(actualElementsSideSize);
+            workWithVertical();
         }
     }
 
-    private void workWithHorizontal(Integer actualElementsSideSize) {
+    private void workWithHorizontal() {
         if (incrementHorizontal) {
             horizontalCoordinate++;
         } else {
             horizontalCoordinate--;
         }
-        if (checkStopCondition(++horizontalCounter, actualElementsSideSize)) {
+        if (checkStopCondition(++horizontalCounter)) {
             workingWithHorizontalCoordinate = false;
             incrementHorizontal = !incrementHorizontal;
             horizontalCounter = 0;
         }
     }
 
-    private boolean checkStopCondition(int counter, Integer sideSize) {
-        return counter == sideSize;
+    private boolean checkStopCondition(int counter) {
+        totalElementsCounter++;
+        Integer actualElementsSideSize = (int) Math.floor(Math.sqrt(totalElementsCounter));
+        return counter == actualElementsSideSize;
     }
 
-    private void workWithVertical(Integer actualElementsSideSize) {
+    private void workWithVertical() {
         if (incrementVertical) {
             verticalCoordinate++;
         } else {
             verticalCoordinate--;
         }
-        if (checkStopCondition(++verticalCounter, actualElementsSideSize)) {
+        if (checkStopCondition(++verticalCounter)) {
             workingWithHorizontalCoordinate = true;
             incrementVertical = !incrementVertical;
             verticalCounter = 0;
